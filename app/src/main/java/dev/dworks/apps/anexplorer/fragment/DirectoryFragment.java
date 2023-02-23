@@ -524,12 +524,14 @@ public class DirectoryFragment extends RecyclerFragment implements MenuItem.OnMe
 		public void onItemClick(View view, int position) {
 			final Cursor cursor = mAdapter.getItem(position);
 			if (cursor != null) {
-				final String docId = getCursorString(cursor, Document.COLUMN_DOCUMENT_ID);
+//				final String docId = getCursorString(cursor, Document.COLUMN_DOCUMENT_ID);
 				final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
 				final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
 				if (null != root && root.isApp()) {
 /*					startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"
 							+ AppsProvider.getPackageForDocId(docId))));*/
+					final DocumentInfo doc = DocumentInfo.fromDirectoryCursor(cursor);
+					openDocument(doc);
 				} else if (isDocumentEnabled(docMimeType, docFlags)) {
 					final DocumentInfo doc = DocumentInfo.fromDirectoryCursor(cursor);
 					((BaseActivity) getActivity()).onDocumentPicked(doc);
